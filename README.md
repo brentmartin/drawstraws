@@ -1,5 +1,7 @@
-Drawstraws
-================
+DrawStraws
+==========
+
+Check out our [Trello Board](https://trello.com/b/4TTrKn3s/draw-straws) for current progress.
 
 Setting Up Local Dev With Slack
 -------------------------------

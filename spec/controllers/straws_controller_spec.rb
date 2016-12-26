@@ -9,7 +9,7 @@ RSpec.describe StrawsController, :type => :controller do
       post :create, req
 
       json_response = JSON.parse(response.body)
-      expect(json_response["text"]).to eq "@jess"
+      expect(json_response["text"]).to include("@jess")
     end
 
     it "chooses a user name from the list of user names" do
@@ -18,8 +18,32 @@ RSpec.describe StrawsController, :type => :controller do
 
       post :create, req
 
+      straws_response = JSON.parse(response.body)["text"]
+
+      expect(
+        straws_response.include?("@elizabeth") || straws_response.include?("@brent")
+      ).to be true
+    end
+
+    it "specifies who started the straw poll" do
+      req = slack_request
+      req[:text] = "@elizabeth @brent"
+      req[:user_name] = "jess"
+
+      post :create, req
+
       json_response = JSON.parse(response.body)
-      expect(json_response["text"]).to be_in(["@elizabeth", "@brent"])
+      expect(json_response["text"]).to include("@jess")
+    end
+
+    it "lists all the usernames involved in the straw poll" do
+      req = slack_request
+      req[:text] = "@elizabeth @brent"
+
+      post :create, req
+
+      json_response = JSON.parse(response.body)
+      expect(json_response["text"]).to include("@elizabeth and @brent")
     end
   end
 end

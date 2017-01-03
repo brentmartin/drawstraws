@@ -6,12 +6,11 @@ class StrawsController < ApplicationController
     short_straw_username = straw_usernames.sample
     host_username = params[:user_name]
 
-    straw_response = "@#{host_username} "
-    straw_response += "created a straw poll for #{straw_usernames.to_sentence}.\n\n"
-    straw_response += "*#{short_straw_username} has drawn the short straw*. Sucka!"
+    straw_host_message = "A straw drawing was created by @#{host_username} "
+    straw_participants = "created a straw drawing for #{straw_usernames.to_sentence}."
+    straw_selection_message = "#{short_straw_username} has drawn the short straw!"
 
     slack_response = {
-      "text": straw_response,
       "response_type": "in_channel"
     }
 

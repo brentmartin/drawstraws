@@ -4,11 +4,14 @@ class StrawsController < ApplicationController
   def create
 # basic parsing
     straw_usernames = params[:text].split(' ')
-    short_straw_username = straw_usernames.sample
     host_username = params[:user_name]
 
 # advanced parsing
     straw_task_description = params[:text].scan(/\"(.+)\"/).flatten.join
+    straw_selected_users = params[:text].scan(/@[a-zA-Z0-9_\-\.]{1,21}\b/)
+
+# selection logic
+    short_straw_username = straw_selected_users.sample
 # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "
     straw_participants = "created a straw drawing for #{straw_usernames.to_sentence}."

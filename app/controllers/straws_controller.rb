@@ -22,7 +22,7 @@ class StrawsController < ApplicationController
     slack_response = {
       "attachments": [
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "#{straw_host_message}. Let's draw straws for it! #{straw_task_description}. Drawing from: #{straw_list}",
               "pretext": straw_host_message,
               "color": "#70CADB",
               "title": "Let's draw straws for it!",
@@ -38,13 +38,13 @@ class StrawsController < ApplicationController
               "mrkdwn_in": ["text"]
           },
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "#{short_straw_username} has drawn the short straw.",
               "color": "#FFA500",
               "text": straw_selection_message,
               "mrkdwn_in": ["text"]
           },
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "Thanks for drawing! Questions? Visit our help center using the following url: http://letsdrawstraws.com DrawStraws.",
               "color": "#70CADB",
               "text": "_Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>._",
               "footer": "DrawStraws",

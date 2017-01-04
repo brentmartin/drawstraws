@@ -27,14 +27,15 @@ class StrawsController < ApplicationController
               "color": "#70CADB",
               "title": "Let's draw straws for it!",
               "title_link": "https://trello.com/b/4TTrKn3s/draw-straws",
-              "text": "We need fresh coffee made! Short straw brews the next batch!",
+              "text": straw_task_description,
               "fields": [
                   {
                       "title": "drawing from:",
                       "value": straw_list,
                       "short": false
                   }
-              ]
+              ],
+              "mrkdwn_in": ["text"]
           },
           {
               "fallback": "Required plain-text summary of the attachment.",

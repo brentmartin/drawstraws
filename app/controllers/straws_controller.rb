@@ -17,32 +17,39 @@ class StrawsController < ApplicationController
 
 # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "
-    straw_participants = "created a straw drawing for #{straw_usernames.to_sentence}."
-    straw_selection_message = "#{short_straw_username} has drawn the short straw!"
+    straw_selection_message = "<#{short_straw_username}> has drawn the short straw!"
 
     slack_response = {
       "attachments": [
           {
               "fallback": "Required plain-text summary of the attachment.",
+              "pretext": straw_host_message,
               "color": "#70CADB",
-              "pretext": straw_host_message
+              "title": "Let's draw straws for it!",
+              "title_link": "https://trello.com/b/4TTrKn3s/draw-straws",
+              "text": "We need fresh coffee made! Short straw brews the next batch!",
+              "fields": [
+                  {
+                      "title": "drawing from:",
+                      "value": straw_list,
+                      "short": false
+                  }
+              ]
           },
           {
               "fallback": "Required plain-text summary of the attachment.",
               "color": "#FFA500",
-              "text": straw_selection_message
+              "text": straw_selection_message,
           },
           {
               "fallback": "Required plain-text summary of the attachment.",
               "color": "#70CADB",
-              "title": "Make the Coffee!",
-              "title_link": "https://trello.com/b/4TTrKn3s/draw-straws",
-              "text": "We need fresh coffee made! Short straw brews <https://trello.com/b/4TTrKn3s/draw-straws| ...see details>",
+              "text": "Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>. ",
               "image_url": "http://my-website.com/path/to/image.jpg",
               "thumb_url": "http://example.com/path/to/thumb.png",
               "footer": "DrawStraws",
               "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-              "ts": 123456789
+              "ts": 123456789,
           }
       ],
       "response_type": "in_channel"

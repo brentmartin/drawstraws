@@ -26,7 +26,7 @@ class StrawsController < ApplicationController
               "pretext": straw_host_message,
               "color": "#70CADB",
               "title": "Let's draw straws for it!",
-              "title_link": "https://trello.com/b/4TTrKn3s/draw-straws",
+              "title_link": "http://letsdrawstraws.com",
               "text": straw_task_description,
               "fields": [
                   {
@@ -47,11 +47,7 @@ class StrawsController < ApplicationController
               "fallback": "Required plain-text summary of the attachment.",
               "color": "#70CADB",
               "text": "_Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>._",
-              "image_url": "http://my-website.com/path/to/image.jpg",
-              "thumb_url": "http://example.com/path/to/thumb.png",
               "footer": "DrawStraws",
-              "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-              "ts": 123456789,
               "mrkdwn_in": ["text"]
           }
       ],

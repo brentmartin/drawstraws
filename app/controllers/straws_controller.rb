@@ -2,20 +2,20 @@ class StrawsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def create
-# basic parsing
+    # basic parsing
     straw_usernames = params[:text].split(' ')
     host_username = params[:user_name]
 
-# advanced parsing
+    # advanced parsing
     straw_task_description = params[:text].scan(/\"(.+)\"/).flatten.join
     straw_selected_users = params[:text].scan(/@[a-zA-Z0-9_\-\.]{1,21}\b/)
 
-# selection logic
+    # selection logic
     short_straw_username = straw_selected_users.sample
     straw_list = ""
     straw_selected_users.each { |username| straw_list += "#{username}\n" }
 
-# message creation
+    # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "
     straw_selection_message = "*<#{short_straw_username}> has drawn the short straw!*"
 

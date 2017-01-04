@@ -2,31 +2,30 @@ class StrawsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def create
-# basic parsing
+    # basic parsing
     straw_usernames = params[:text].split(' ')
     host_username = params[:user_name]
 
-# advanced parsing
+    # advanced parsing
     straw_task_description = params[:text].scan(/\"(.+)\"/).flatten.join
     straw_selected_users = params[:text].scan(/@[a-zA-Z0-9_\-\.]{1,21}\b/)
 
-# selection logic
+    # selection logic
     short_straw_username = straw_selected_users.sample
-    straw_list = ""
-    straw_selected_users.each { |username| straw_list += "#{username}\n" }
+    straw_list = straw_selected_users.join("\n")
 
-# message creation
+    # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "
     straw_selection_message = "*<#{short_straw_username}> has drawn the short straw!*"
 
     slack_response = {
       "attachments": [
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "#{straw_host_message}. Let's draw straws for it! #{straw_task_description}. Drawing from: #{straw_list}",
               "pretext": straw_host_message,
               "color": "#70CADB",
               "title": "Let's draw straws for it!",
-              "title_link": "https://trello.com/b/4TTrKn3s/draw-straws",
+              "title_link": "http://letsdrawstraws.com",
               "text": straw_task_description,
               "fields": [
                   {
@@ -38,20 +37,16 @@ class StrawsController < ApplicationController
               "mrkdwn_in": ["text"]
           },
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "#{short_straw_username} has drawn the short straw.",
               "color": "#FFA500",
               "text": straw_selection_message,
               "mrkdwn_in": ["text"]
           },
           {
-              "fallback": "Required plain-text summary of the attachment.",
+              "fallback": "Thanks for drawing! Questions? Visit our help center using the following url: http://letsdrawstraws.com DrawStraws.",
               "color": "#70CADB",
               "text": "_Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>._",
-              "image_url": "http://my-website.com/path/to/image.jpg",
-              "thumb_url": "http://example.com/path/to/thumb.png",
               "footer": "DrawStraws",
-              "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-              "ts": 123456789,
               "mrkdwn_in": ["text"]
           }
       ],

@@ -17,7 +17,7 @@ class StrawsController < ApplicationController
 
 # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "
-    straw_selection_message = "<#{short_straw_username}> has drawn the short straw!"
+    straw_selection_message = "*<#{short_straw_username}> has drawn the short straw!*"
 
     slack_response = {
       "attachments": [
@@ -40,16 +40,18 @@ class StrawsController < ApplicationController
               "fallback": "Required plain-text summary of the attachment.",
               "color": "#FFA500",
               "text": straw_selection_message,
+              "mrkdwn_in": ["text"]
           },
           {
               "fallback": "Required plain-text summary of the attachment.",
               "color": "#70CADB",
-              "text": "Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>. ",
+              "text": "_Thanks for drawing! Questions? Visit our <http://letsdrawstraws.com|help center>._",
               "image_url": "http://my-website.com/path/to/image.jpg",
               "thumb_url": "http://example.com/path/to/thumb.png",
               "footer": "DrawStraws",
               "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
               "ts": 123456789,
+              "mrkdwn_in": ["text"]
           }
       ],
       "response_type": "in_channel"

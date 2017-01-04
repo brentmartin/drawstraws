@@ -12,8 +12,7 @@ class StrawsController < ApplicationController
 
     # selection logic
     short_straw_username = straw_selected_users.sample
-    straw_list = ""
-    straw_selected_users.each { |username| straw_list += "#{username}\n" }
+    straw_list = straw_selected_users.join("\n")
 
     # message creation
     straw_host_message = "A straw drawing was created by @#{host_username} "

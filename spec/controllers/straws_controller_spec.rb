@@ -12,6 +12,16 @@ RSpec.describe StrawsController, :type => :controller do
       expect(json_response["attachments"][0]["fields"][0]["value"]).to include("@jess")
     end
 
+    it "should not return a username that without an '@' symbol" do
+      req = slack_request
+      req[:text] = "jess"
+
+      post :create, req
+
+      json_response = JSON.parse(response.body)
+      expect(json_response["attachments"][0]["fields"][0]["value"]).to eq("")
+    end
+
     it "chooses a short straw from the list of user names" do
       req = slack_request
       req[:text] = "@elizabeth @brent"

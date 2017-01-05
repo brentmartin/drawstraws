@@ -55,6 +55,16 @@ RSpec.describe StrawsController, :type => :controller do
       json_response = JSON.parse(response.body)
       expect(json_response["attachments"][0]["fields"][0]["value"]).to include("@elizabeth\n@brent")
     end
+
+    it "gives the task description entered by the user" do
+      req = slack_request
+      req[:text] = "@elizabeth @brent \"Someone has to make the coffee!\""
+
+      post :create, req
+
+      json_response = JSON.parse(response.body)
+      expect(json_response["attachments"][0]["text"]).to eq("Someone has to make the coffee!")
+    end
   end
 end
 

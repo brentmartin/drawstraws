@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StrawsController, :type => :controller do
   describe "POST /straws" do
-    it "returns a single username from the list of usernames" do
+    it "should return a single username from the list of usernames" do
       req = slack_request
       req[:text] = "@jess"
 
@@ -12,7 +12,7 @@ RSpec.describe StrawsController, :type => :controller do
       expect(json_response["attachments"][0]["fields"][0]["value"]).to include("@jess")
     end
 
-    it "should not return a username that without an '@' symbol" do
+    it "should only return usernames with an '@' symbol" do
       req = slack_request
       req[:text] = "jess"
 
@@ -22,20 +22,19 @@ RSpec.describe StrawsController, :type => :controller do
       expect(json_response["attachments"][0]["fields"][0]["value"]).to eq("")
     end
 
-    it "chooses a short straw from the list of user names" do
+    it "should choose a short straw from the list of user names" do
       req = slack_request
       req[:text] = "@elizabeth @brent"
 
       post :create, req
 
       straws_response = JSON.parse(response.body)["attachments"][1]["text"]
-
       expect(
         straws_response.include?("@elizabeth") || straws_response.include?("@brent")
       ).to be true
     end
 
-    it "specifies who started the straw poll" do
+    it "should specify the user who started the straw poll" do
       req = slack_request
       req[:text] = "@elizabeth @brent"
       req[:user_name] = "jess"
@@ -46,7 +45,7 @@ RSpec.describe StrawsController, :type => :controller do
       expect(json_response["attachments"][0]["pretext"]).to include("@jess")
     end
 
-    it "lists all the usernames involved in the straw poll" do
+    it "should list all the usernames involved in the straw poll" do
       req = slack_request
       req[:text] = "@elizabeth @brent"
 
@@ -56,7 +55,7 @@ RSpec.describe StrawsController, :type => :controller do
       expect(json_response["attachments"][0]["fields"][0]["value"]).to include("@elizabeth\n@brent")
     end
 
-    it "gives the task description entered by the user" do
+    it "should receive the task description in quotes entered by the user" do
       req = slack_request
       req[:text] = "@elizabeth @brent \"Someone has to make the coffee!\""
 
